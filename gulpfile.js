@@ -90,10 +90,13 @@ function htmls() {
 }
 
 function images() {
-  return gulp.src(paths.src + 'img/*.{jpg,jpeg,png,gif,svg}')
-    .pipe(imagemin()) // если картинок будет много, то и времени будет уходить много
-    .pipe(gulp.dest(paths.build + 'img/'));
-}
+  return gulp.src('src/img/**/*.{jpg,png,gif}')
+    .pipe(imagemin([
+      imagemin.optipng({optimizationLevel: 3}),
+      imagemin.jpegtran({progressive: true})
+    ]))
+    .pipe(gulp.dest('build/img'));
+};
 
 function clean() {
   return del('build/')
